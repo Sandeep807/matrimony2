@@ -1,1 +1,1 @@
-web: gunicorn VIEWSET.wsgi --log-file -
+web: gunicorn viewset.wsgi --log-file -
