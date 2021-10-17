@@ -68,22 +68,26 @@ class Login(APIView):
                         }
                     )
                 user_obj = authenticate(mobile_number=mobile_number,password=password)
-
+                print(user_obj)
                 if user_obj is None:
                     return Response({
                         'status':False,
                         'message':'Invalid password',
                         'data':{}
                     })
-                token=Token.objects.get_or_create(user = user_obj)
+                token,_=Token.objects.get_or_create(user = user_obj)
                 return Response({
                     'status':True,
                     'Message':'Login success',
                     'data':{
-                        # 'token':str(token)
+                         'token':str(token)
                     }
                 })
         except Exception as e:
+            # import sys, os
+            # exc_type, exc_obj, exc_tb = sys.exc_info()
+            # fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            # print(exc_type, fname, exc_tb.tb_lineno)
             print(e)
             return Response({
                 'status':False,

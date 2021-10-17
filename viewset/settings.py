@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '*6qfjymbq5_y513es%*(q3o@r$!wp#6l3)2c!h$)4ljx-tvpk$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'taxi',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [

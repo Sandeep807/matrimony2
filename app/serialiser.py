@@ -44,8 +44,8 @@ class ImageSerialiser(serializers.ModelSerializer):
         fields='__all__'
 
 class LoginSerialiser(serializers.Serializer):
-    mobile_number=models.CharField()
-    password=models.CharField()
+    mobile_number=serializers.CharField()
+    password=serializers.CharField()
 
 class PasswordSerialiser(serializers.Serializer):
     new_password=serializers.CharField()
