@@ -77,7 +77,7 @@ class Login(APIView):
                     'status':True,
                     'Message':'Login success',
                     'data':{
-                        # 'token':str(token)
+                        'token':str(token)
                     }
                 })
         except Exception as e:
