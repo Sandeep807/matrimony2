@@ -50,6 +50,11 @@ class LoginSerialiser(serializers.Serializer):
 class PasswordSerialiser(serializers.Serializer):
     new_password=serializers.CharField()
     confirm_password=serializers.CharField()
+    old_password=serializers.CharField()
+    mobile_number=serializers.CharField()
+
+
+
 
 
 

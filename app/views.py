@@ -59,7 +59,8 @@ class Login(APIView):
             if serialiser.is_valid():
                 mobile_number=serialiser.data['mobile_number']
                 password=serialiser.data['password']
-                if not Registration.objects.filter(mobile_number = mobile_number).exists():
+                register=Registration.objects.filter(mobile_number = mobile_number).first()
+                if not register:
                     return Response(
                         {
                             'status':False,
@@ -68,11 +69,10 @@ class Login(APIView):
                         }
                     )
                 user_obj = authenticate(mobile_number=mobile_number,password=password)
-                print(user_obj)
                 if user_obj is None:
                     return Response({
                         'status':False,
-                        'message':'Invalid password',
+                        'message':'Invalid username and password',
                         'data':{}
                     })
                 token,_=Token.objects.get_or_create(user = user_obj)
@@ -99,17 +99,44 @@ class ChangePassword(APIView):
     def post(self,request):
         try:
             data=request.data
+            #mobile_number=request.data.get['mobile_number']
             serialise=PasswordSerialiser(data=data)
-            if(serialise.is_valid()):
+            if serialise.is_valid():
                 new_password=serialise.data['new_password']
                 confirm_password=serialise.data['confirm_password']
-                if(new_password==confirm_password):
-                    serialise.save()
-                    return Response({'status':200,'message':'Password has been change successful','Detail':serialise.data})
-                else:
-                    return Response({'status':400,'error':serialise.errors,'message':'Not match password and confirm password'})
-            else:
-                return Response({'status':400,'message':"Invalid data"})
+                mobile_number=serialise.data['mobile_number']
+                if confirm_password==new_password:
+                        print(mobile_number)
+                        obj=Registration.objects.filter(mobile_number=mobile_number).first()
+                        if obj is not None:
+                            old_password=serialise.data['old_password']
+                            user=authenticate(mobile_number=mobile_number,password=old_password)
+                            print(user)
+                            if user:
+                                print(user)
+                                obj.set_password(new_password)
+                                obj.save()
+                                return Response({
+                                    'status':'Success',
+                                    'details':"password successfully"
+                                })
+                            return Response({
+                                    'status':'False',
+                                    'details':"old password missmatch"
+                                })
+                        return Response({
+                                    'status':'False',
+                                    'details':"username not found"
+                                })
+                return Response({
+                                'status':'False',
+                                'details':"new and confirm password missmatch"
+                            })
+            return Response({
+                                'status':'False',
+                                'details':serialise.errors
+                            })
+                        
         except Exception as e:
             print(e)
             return Response({'status':404,'message':'Something went wrong'})

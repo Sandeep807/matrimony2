@@ -55,7 +55,8 @@ class Login(APIView):
             if serialiser.is_valid():
                 mobile_number=serialiser.data['mobile_number']
                 password=serialiser.data['password']
-                if not DriverRegistration.objects.filter(mobile_number = mobile_number).exists():
+                obj=DriverRegistration.objects.filter(mobile_number = mobile_number).first()
+                if not obj:
                     return Response(
                         {
                             'status':False,
@@ -63,15 +64,15 @@ class Login(APIView):
                             'data':{}
                         }
                     )
-                user_obj = authenticate(mobile_number=mobile_number,password=password)
+                user_obj, = authenticate(mobile_number=mobile_number,password=password)
 
                 if user_obj is None:
                     return Response({
                         'status':False,
-                        'message':'Invalid password',
+                        'message':'Invalid username and password',
                         'data':{}
                     })
-                token=Token.objects.get_or_create(user = user_obj)
+                token,_=Token.objects.get_or_create(user = user_obj)
                 return Response({
                     'status':True,
                     'Message':'Login success',

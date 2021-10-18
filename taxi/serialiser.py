@@ -20,10 +20,11 @@ class PaymentSerialiser(serializers.ModelSerializer):
         fields='__all__'
 
 class DriverLoginSerialiser(serializers.Serializer):
-    mobile_number=models.IntegerField()
-    password=models.CharField()
+    mobile_number=serializers.CharField()
+    password=serializers.CharField()
 
 class PasswordSerialiser(serializers.Serializer):
     old_password=serializers.CharField()
     new_password=serializers.CharField()
     confirm_password=serializers.CharField()
+    mobile_number=serializers.CharField()

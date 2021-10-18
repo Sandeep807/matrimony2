@@ -71,8 +71,8 @@ class ProfessionalDetails(models.Model):
     annual_income=models.CharField(max_length=1000,choices=annual_income_choices)
     work_location=models.CharField(max_length=100,choices=work_choices)
     residing_state=models.CharField(max_length=100)
-    register=models.ForeignKey(Registration,on_delete=models.CASCADE)
     city=models.CharField(max_length=100)
+    register=models.ForeignKey(Registration,on_delete=models.CASCADE)
 
 class Image(models.Model):
     pic=models.ImageField(upload_to='image',null=True,blank=True)
